@@ -39,4 +39,7 @@ public class MybatisUtils {
         }
     }
 
+    public static void main(String[] args) {
+        System.out.println("mb");
+    }
 }
