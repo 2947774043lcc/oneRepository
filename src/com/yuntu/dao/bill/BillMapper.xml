@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuntu.dao.bill.BillMapper">
+<select id="getBillList" resultType="Bill">
+    select * from smbms_bill
+</select>
+    <insert id="addBill" parameterType="Bill">
+        insert into smbms_bill() values ()
+    </insert>
+    <update id="updateBill" parameterType="Bill">
+        update smbms_bill set where
+    </update>
+    <delete id="deleteBill" parameterType="Bill">
+        delete from smbms_bill where id=#{id}
+    </delete>
+    <resultMap id="billAndProviderList" type="Bill">
+        <id property="id" column="id"/>
+        <result property="billCode" column="billCode"/>
+        <result property="productName" column="productName"/>
+        <result property="provider.proCode" column="proCode"/>
+        <result property="provider.proName" column="proName"/>
+        <result property="provider.proContact" column="proContact"/>
+        <result property="provider.proPhone" column="phone"/>
+        <result property="totalPrice" column="totalPrice"/>
+        <result property="isPayment" column="isPayment"/>
+    </resultMap>
+    <!--<select id="selectBillByName" resultMap="billAndProviderList">
+        select b.billCode,b.productName,p.proCode,p.proName,p.proContact,
+               p.proPhone AS phone,b.totalPrice,b.isPayment
+        from smbms_bill b
+        LEFT JOIN smbms_provider p
+        ON b.providerId = p.id
+        WHERE b.productName LIKE CONCAT('%',#{productName},'%')
+        AND b.providerId=#{providerId}
+        AND b.isPayment=#{isPayment}
+    </select>-->
+
+    <select id="selectBillByName" resultMap="billAndProviderList">
+        select b.billCode,b.productName,p.proCode,p.proName,p.proContact,
+               p.proPhone AS phone,b.totalPrice,b.isPayment
+        from smbms_bill b
+        LEFT JOIN smbms_provider p
+        ON b.providerId = p.id
+        <where>
+            <if test="productName!=null and productName!=''">
+            AND b.productName LIKE CONCAT('%',#{productName},'%')
+            </if>
+            <if test="providerId!=null">
+            AND b.providerId=#{providerId}
+            </if>
+          <if test="isPayment!=null">
+            AND b.isPayment=#{isPayment}
+          </if>
+        </where>
+    </select>
+</mapper>
