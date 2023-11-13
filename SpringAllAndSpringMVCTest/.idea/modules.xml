@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/SpringAllAndSpringMVCTest.iml" filepath="$PROJECT_DIR$/SpringAllAndSpringMVCTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-mybatis-01/spring-mybatis-01.iml" filepath="$PROJECT_DIR$/spring-mybatis-01/spring-mybatis-01.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-mybatis-02transaction/spring-mybatis-02transaction.iml" filepath="$PROJECT_DIR$/spring-mybatis-02transaction/spring-mybatis-02transaction.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-mybatis-StudentTest/spring-mybatis-StudentTest.iml" filepath="$PROJECT_DIR$/spring-mybatis-StudentTest/spring-mybatis-StudentTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-mybatis-zhouce/spring-mybatis-zhouce.iml" filepath="$PROJECT_DIR$/spring-mybatis-zhouce/spring-mybatis-zhouce.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring01/spring01.iml" filepath="$PROJECT_DIR$/spring01/spring01.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring02/spring02.iml" filepath="$PROJECT_DIR$/spring02/spring02.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring03Aspect/spring03Aspect.iml" filepath="$PROJECT_DIR$/spring03Aspect/spring03Aspect.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springMVC-01/springMVC-01.iml" filepath="$PROJECT_DIR$/springMVC-01/springMVC-01.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springMVC-spring-JDBC/springMVC-spring-JDBC.iml" filepath="$PROJECT_DIR$/springMVC-spring-JDBC/springMVC-spring-JDBC.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.2.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/tx">
+
+    <!--注解实现自动装配-->
+    <context:annotation-config/>
+    <!--组件扫描-->
+    <context:component-scan base-package="com.yuntu"/>
+    <!--通过dbcp连接池连接数据库-->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/smbms?characterEncoding=utf-8"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+    </bean>
+
+    <!--SqlSessionFactoryBean
+        为整合应用提供sqlSession对象资源
+    -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--引入数据原bean-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--引入mybatis-->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <!--配置sql映射文件信息-->
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:com/yuntu/mapper/**/*.xml</value>
+            </list>
+        </property>
+    </bean>
+
+
+    <!--
+       MapperFactoryBean : 数据映射器
+       它封装了原有的sqlsession.getMapper()功能
+    -->
+    <bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.yuntu.mapper.user.UserMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="user" class="com.yuntu.entity.User">
+        <property name="userName" value="赵"/>
+    </bean>
+
+</beans>

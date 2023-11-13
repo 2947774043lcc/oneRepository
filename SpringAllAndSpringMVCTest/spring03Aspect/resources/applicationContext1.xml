@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.2.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/tx">
+    <!--注解实现自动装配-->
+      <context:annotation-config/>
+    <!--组件扫描-->
+    <context:component-scan base-package="com.yuntu"/>
+    <!--开启自动代理-->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+
+    <!--
+    aop:pointcut :定义切入点
+    expression:表达式 execution("要执行的位置")
+    execution 既可以特指单独一个方法
+     public void getUserList();
+     也可以指定一个类 * com.service.com.yuntu.UserServiceImpl,*(..) throws Exception
+     第一个 * 囊括所有的返回类型
+     第二个 * 所有的方法
+    .. 所有类型的参数
+      throws Exception 异常
+
+    -->
+<!--    aop面向切面编程-->
+<!--    <bean id="serviceLogger" class="com.yuntu.aopLog.ServiceLogger"/>-->
+<!--    <aop:config>-->
+<!--        切点表达式-->
+<!--        <aop:pointcut id="pointcut" expression="execution(* com.yuntu..*(..))"/>-->
+<!--        切面-->
+<!--        织入:将增强添加到目标类具体连接点上一个过程-->
+<!--        <aop:aspect ref="serviceLogger">-->
+<!--            切面=通知 + 切点-->
+<!--            <aop:before method="before" pointcut-ref="pointcut"/>-->
+<!--            <aop:after-returning method="after" pointcut-ref="pointcut" returning="result"/>-->
+<!--            <aop:around method="aroundLogger" pointcut-ref="pointcut"/>-->
+<!--            通过throwing属性指定名为e的参数注入异常实例-->
+<!--            <aop:after-throwing method="afterThrow" pointcut-ref="pointcut" throwing="e"/>-->
+<!--        </aop:aspect>-->
+<!--    </aop:config>-->
+
+    <!--<bean id="address" class="com.yuntu.entity.Address" p:name="北京"/>
+    <bean id="userBean" class="com.yuntu.entity.User"/>-->
+</beans>

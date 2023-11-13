@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.2.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--注解实现自动装配-->
+    <context:annotation-config/>
+    <!--组件扫描-->
+    <context:component-scan base-package="com.yuntu"/>
+    <!--通过dbcp连接池连接数据库-->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/smbms?characterEncoding=utf-8"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+    </bean>
+
+    <!--SqlSessionFactoryBean
+        为整合应用提供sqlSession对象资源
+    -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--引入数据原bean-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--引入mybatis-->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <!--配置sql映射文件信息-->
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:com/yuntu/mapper/**/*.xml</value>
+            </list>
+        </property>
+        <property name="typeAliases" value="com.yuntu.entity"/>
+    </bean>
+
+
+   <!--
+   映射器较多的话 我们通过MapperScannerConfigurer
+   自动扫描指定包下的Mapper接口
+   并注册为uMapperFactoryBean
+   -->
+    <bean id="scanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.yuntu.mapper"/>
+    </bean>
+
+    <!--定义一个事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!--
+      定义切面
+    -->
+
+    <!--
+    propagation="REQUIRED"
+    判断当前方法是否存在事务,如果不存在则添加上
+    如果存在则使用
+    propagation="MANDATORY"
+    支持当前事务,如果当前存在事务则加入该事务
+    如果不存在则抛出异常
+
+
+    -->
+
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="add*" propagation="REQUIRED"/>
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="del*" propagation="REQUIRED"/>
+            <tx:method name="tran*" propagation="REQUIRED"/>
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+    <aop:config>
+        <aop:pointcut id="serviceMethod" expression="execution(* com.yuntu.service..*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethod"/>
+    </aop:config>
+
+</beans>
